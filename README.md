@@ -1,6 +1,6 @@
 # 🚀 简悦 Andrej Karpathy LLM Wiki 方案
 
-> **从 “稍后读” 到 “终身维基” ：专为重度阅读者打造的工业级个人知识内化方案。**
+> **从 “稍后读” 到 “终身维基” ：专为重度阅读者打造的个人知识内化方案。**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![SimpRead](https://img.shields.io/badge/Made%20for-SimpRead-blue)](https://simpread.pro/)
