@@ -112,7 +112,7 @@
 
 执行 `/report [主题]` 自动生成基于架构图的深度洞察简报。
 
-### 8️⃣ 执行 skills 命令：`command/refreh.md`
+### 8️⃣ 执行 skills 命令：`command/refresh.md`
 
 当修改 `AGENT.md` `skills/` `command/` 里面的内容后，需要使用此命令获取并理解这些内容。
 
