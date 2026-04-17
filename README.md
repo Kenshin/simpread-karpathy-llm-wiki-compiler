@@ -204,6 +204,14 @@ Done！
 
 ---
 
+## 🤖 使用工具建议
+
+只要是可以操作本地文件的 AI 工具均可，此工程在 `Visual Studio Code`、`Trae`、 `OpenCode` 下完成。
+
+分别使用了 `Google Gemini Flash` / `MiniMax-M2.7` 模型。
+
+---
+
 ## 🤝 贡献与反馈
 
 欢迎提交 Issue 或 Pull Request 来完善编译器协议。
