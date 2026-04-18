@@ -132,9 +132,9 @@
 
 0.  执行 `AGENT.md` （告知 LLM 这套系统的规范）
 
-1.  执行 `init.md` 内容（仅需一次）。
+1.  执行 `command/init.md` 内容（仅需一次）。
 
-2.  执行 `command/ask.md`（初始化提问环境） `command/report.md`（初始化生成简报环境） `command/generate.md`（初始化快捷执行 skills 环境）
+2.  执行 `command/refesh.md` （自动阅读并初始化 `skills/` 、`command/` 文件夹的全部内容）。
 
 ### 💡 提问
 
