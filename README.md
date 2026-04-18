@@ -114,6 +114,8 @@
 
 执行 `/report [主题]` 自动生成基于架构图的深度洞察简报。
 
+生成图表时包含了 `ASCII` （默认）和 `Mermaid` 方案，可通过 `/report -- mermaid` 切换。
+
 ### 8️⃣ 执行 skills 命令：`command/refresh.md`
 
 当修改 `AGENT.md` `skills/` `command/` 里面的内容后，需要使用此命令获取并理解这些内容。
@@ -139,8 +141,6 @@
 1.  输入 `/ask [提问内容]` 即可开始提问。
 
 2.  输入 `/report [主题]` 即可开始生成对应主题的简报。
-
-3.  输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report 方案整理。`
 
 ### 🧰 后续维护
 
@@ -186,9 +186,15 @@
 
 * **情况 B（更新素材）**：新素材丢进 `raw/已有主题/` → 输入 `/gen update.md` → 查看变更日志。
 
-* **情况 C（提问）**：输入 `/ask [你的问题]`。
+* **情况 C（深度挖掘）**：如果觉得某个 Wiki 主题内容有缺失可输入 `/gen audit.md` 后根据提示重新从 `/raw/[主题]` 挖掘。
 
-* **情况 D（简报）**：输入 `/report [主题]`。
+* **情况 D（提问）**：输入 `/ask [你的问题]`。
+
+* **情况 E（简报）**：输入 `/report [主题]`。
+
+* **情况 F（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report 方案整理。`
+
+* **情况 G（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report -- mermaid 方案整理。`
 
 ## 🖥 仅迁移到新的环境
 
@@ -226,11 +232,15 @@ Done！
 
 ### ⚡ 在稍后读 · 极速版使用
 
-确保同步助手版本 ≥ **1.5.1**，如有必要 [请点击升级](https://simpread.pro/docs/#/Sync?id=下载)。
+确保同步助手版本 ≥ **1.5.1**，如有必要 [请点击升级](https://simpread.pro/docs/#/Sync?id=下载) 。
+
+本项目并不是针对简悦用户，详细说明请 [移步到这里](https://github.com/Kenshin/simpread/discussions/3864#discussioncomment-16566521)。
 
 ### 📖 在阅读模式下使用
 
 使用 [导出简悦知识库](https://github.com/Kenshin/simpread/discussions/6714) 插件进行 RAG 素材准备。
+
+本项目并不是针对简悦用户，详细说明请 [移步到这里](https://github.com/Kenshin/simpread/discussions/6714#discussioncomment-16609930)。
 
 ---
 
