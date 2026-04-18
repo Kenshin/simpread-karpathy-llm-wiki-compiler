@@ -204,9 +204,17 @@
 
 1.  给新 LLM 发送 `AGENT.md`，确立它的底层逻辑和兴趣偏好。
 
-2.  重新执行 `command/ask.md` `command/report.md` `command/generate.md`
+2.  重新执行 `refresh.md` 。
 
 Done！
+
+## 🖼 截图
+
+这些截图是在 Trae + MiniMax-M2.7 完成的。
+
+| <img src="https://res.cloudinary.com/simpread/image/upload/v1776487116/config/27b15c2e39c02cdcb66d607dc16dd2fd.png" height="200" /> | <img src="https://res.cloudinary.com/simpread/image/upload/v1776487260/config/a451fc56dc2e945ca56791efa1a832a2.png" height="200" /> | <img src="https://res.cloudinary.com/simpread/image/upload/v1776487592/config/ef34be2cab15dfc0f030048f2bed5591.png" height="200" /> | <img src="https://res.cloudinary.com/simpread/image/upload/v1776487883/config/55386927d2d70ccfb7e1eb55916f85bd.png" height="200" /> | <img src="https://res.cloudinary.com/simpread/image/upload/v1776487993/config/c3e4ed03518c3724bde660fd86ca7f2a.png" height="200" /> |
+|-------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| 使用 `/gen add` 添加新的主题                                                                                                                | 使用 `/gen audit.md` 审计主题                                                                                                             | 使用 `/ask 请在 AI 相关内容中检索 OpenAI 相关内容，并按照 /report -- mermaid 方案整理。`                                                                    | 使用 `/report 外卖大战商业分析, 以时间线为基准描述。`                                                                                                   | 使用 `/report 东胡的演化，在生成图表时请输入 GraphvizOnline 结构`                                                                                      |
 
 ---
 
