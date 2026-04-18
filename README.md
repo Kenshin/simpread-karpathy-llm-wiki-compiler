@@ -232,13 +232,13 @@ Done！
 
 ### ⚡ 在稍后读 · 极速版使用
 
-确保同步助手版本 ≥ **1.5.1**，如有必要 [请点击升级](https://simpread.pro/docs/#/Sync?id=下载) 。
+确保同步助手版本 ≥ **1.5.1**，如有必要 [请点击升级](https://simpread.pro/docs/#/Sync?id=下载)。
 
 本项目并不是针对简悦用户，详细说明请 [移步到这里](https://github.com/Kenshin/simpread/discussions/3864#discussioncomment-16566521)。
 
 ### 📖 在阅读模式下使用
 
-使用 [导出简悦知识库](https://github.com/Kenshin/simpread/discussions/6714) 插件进行 RAG 素材准备。
+使用简悦插件 · [导出简悦知识库](https://github.com/Kenshin/simpread/discussions/6714)。
 
 本项目并不是针对简悦用户，详细说明请 [移步到这里](https://github.com/Kenshin/simpread/discussions/6714#discussioncomment-16609930)。
 
