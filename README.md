@@ -224,15 +224,15 @@ Done！
 
 ### 📚 使用前提
 
-用户需配置 [本地知识库](https://www.yuque.com/kenshin/simpread/wkswh7)。
+1. 用户需配置 [本地知识库](https://www.yuque.com/kenshin/simpread/wkswh7)。
+
+2. 确保同步助手版本 ≥ **1.5.1**，如有必要 [请点击升级](https://simpread.pro/docs/#/Sync?id=下载)。
 
 ### 💡 特点
 
 确保存在本地快照即可，设置目录后，可将本地快照以各种检索方式（如标签、时间点、任意搜索内容等）进行保存到 `raw/` 目录。
 
 ### ⚡ 在稍后读 · 极速版使用
-
-确保同步助手版本 ≥ **1.5.1**，如有必要 [请点击升级](https://simpread.pro/docs/#/Sync?id=下载)。
 
 本项目并不是针对简悦用户，详细说明请 [移步到这里](https://github.com/Kenshin/simpread/discussions/3864#discussioncomment-16566521)。
 
