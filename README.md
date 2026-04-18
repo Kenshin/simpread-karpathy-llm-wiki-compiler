@@ -7,6 +7,8 @@
 
 ## 🌟 核心理念
 
+作为 [简悦（SimpRead）](https://simpread.pro) 的创建者，我设计了这个框架，旨在弥合 “稍后阅读（Read-it-Later）” 与 “永远不读（Read-it-Never）” 之间的鸿沟。
+
 本项目是基于 **Andrej Karpathy** 提倡的 **[LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)** 概念构建的 **个人知识库自动化知识构建方案**。它不仅是一套工具链，更是一种将 “被动囤积” 转化为 “主动内化” 的个人知识库自动化构建协议。
 
 这套框架利用具备文件读写权限的 AI 环境，将任意本地 Markdown 文件（或通过简悦导出的本地的本地快照）转化为高度结构化、可溯源、且具备双向链接的个人维基（Wiki），专为处理 **大规模（1000+）异步阅读素材** 而生。
@@ -244,17 +246,9 @@ Done！
 
 欢迎提交 Issue 或 Pull Request 来完善编译器协议。
 
----
-
 ## ⚖️ License
 
 Licensed under the **MIT License**.
-
-## 🖋️ Author's Note
-
-作为 简悦（SimpRead）的创建者，我设计了这个框架，旨在弥合 “稍后阅读（Read-it-Later）” 与 “永远不读（Read-it-Never）” 之间的鸿沟。
-
-本项目是对 Andrej Karpathy 的 LLM Wiki 概念的实现，并针对 SimpRead 生态系统（以及 Markdown 文本文件）进行了专门优化。它支持将数千个本地快照转换为结构化、支持 AI 的知识库这一繁重的工作。
 
 ---
 
