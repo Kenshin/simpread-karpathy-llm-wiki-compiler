@@ -162,7 +162,9 @@
 
 1.  执行 `refresh.md` 内容（仅需一次，如已执行，则无须再次使用）。
 
-2.  输入 `/refresh` 开始针对某一主题进行重新审计。
+2.  输入 `/refresh` 全部重新扫描 `skills/` `command/` 的内容并重新理解和严格执行。
+
+2.  输入 `/refresh [filename]` 开始针对某一主题进行重新审计，如 `/refresh audit.md` 仅重新理解和严格执行 audit.md。
 
 ---
 
