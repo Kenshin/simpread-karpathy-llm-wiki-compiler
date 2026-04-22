@@ -178,7 +178,7 @@
 
 2.  执行 `AGENT.md`
 
-3.  执行 `command/refesh.md` → 执行 `/refresh`
+3.  执行 `command/refresh.md` → 执行 `/refresh`
 
 4.  提问 `/ask 请以 OpenAI 为关键字，生成一份以时间线为主的简报，并按照 /report 的格式给出答案。`
 
