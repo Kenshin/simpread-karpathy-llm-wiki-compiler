@@ -258,9 +258,9 @@ Done！
 
 ## 🤖 使用工具建议
 
-只要是可以操作本地文件的 AI 工具均可，此工程在 [Visual Studio Code](https://code.visualstudio.com/) / [Trae](https://www.trae.cn/) / [OpenCode](https://opencode.ai/) 下完成。
+只要是可以操作本地文件的 AI 工具均可，此工程在 [Visual Studio Code](https://code.visualstudio.com/) / [Trae](https://www.trae.cn/) / [Codex](https://openai.com/codex/) [OpenCode](https://opencode.ai/) 下完成。
 
-分别使用了 `Google Gemini Flash` / `MiniMax-M2.7` 模型。
+分别使用了 `Google Gemini Flash` / `GPT-5.4` / `MiniMax-M2.7` 模型。
 
 ---
 
