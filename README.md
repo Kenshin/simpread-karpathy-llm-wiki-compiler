@@ -15,6 +15,8 @@
 
 我使用这套框架管理着通过 **简悦 (SimpRead)** 收集的数千个深度阅读内容（稍后读）。它不只是简单的存储，而是通过一套 **协议驱动型架构**，将凌乱的 HTML/Markdown 剪藏增量编译为具备高度逻辑性、可回溯、且带有本地快照链接的结构化维基。
 
+它比 [RAG 方案](https://github.com/Kenshin/simpread/discussions/categories/%E7%AE%80%E6%82%A6-ai) 更简洁，比[ AI 浏览器方案](https://github.com/Kenshin/simpread/discussions/7283) 更强大，这套框架的 👉 [具体使用方案](https://github.com/Kenshin/simpread-karpathy-llm-wiki-compiler)
+
 ## 😆 太长不看
 
 简悦用户请 [移步到这里](#-简悦用户专属配置) 其他用户请直接 [移步到这里](#-使用说明) 或直接查看 [快速上手](#-快速上手)
