@@ -218,7 +218,7 @@ Done！
 
 这些截图是在 Trae + MiniMax-M2.7 完成的。
 
-<details><summary>使用 <code>/gen add</code> 添加新的主题</summary>
+<details><summary>使用 <code>/gen add.md</code> 添加新的主题</summary>
   <img src="https://res.cloudinary.com/simpread/image/upload/v1776487116/config/27b15c2e39c02cdcb66d607dc16dd2fd.png" />
 </details>
 
