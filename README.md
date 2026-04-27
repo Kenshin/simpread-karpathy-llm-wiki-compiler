@@ -118,15 +118,19 @@
 
 执行 `/report [主题]` 自动生成基于架构图的深度洞察简报。
 
-生成图表时包含了 `ASCII` （默认）和 `Mermaid` 方案，可通过 `/report -- mermaid` 切换。
+生成图表时包含了 `ASCII` （默认）和 `Mermaid` 方案，可通过 `/report --mermaid` 或 `/report -- ascii` 切换。
+
+执行 `--output` 在输出简报的同时会同步保存到 `output/` 文件夹内，例如 `/refresh OpenAI --output`
 
 ### 8️⃣ 执行 skills 命令：`command/refresh.md`
 
 当修改 `AGENT.md` `skills/` `command/` 里面的内容后，需要使用此命令获取并理解这些内容。
 
-### 9️⃣ 执行 skills 命令：`startup.md`
+执行 `/refresh [文件名]` 仅重新读取指定文件的内容，例如 `/refresh audit.md`
 
-当前库已经在使用了，只是迁移到新环境时执行。
+### 9️⃣ 执行 skills 命令：`command/startup.md`
+
+当前库已经在使用了，只是迁移到新环境时执行 `startup.md`
 
 ---
 
