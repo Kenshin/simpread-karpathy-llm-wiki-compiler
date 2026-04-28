@@ -142,11 +142,7 @@
 
 ### 🚀 首次使用
 
-0.  执行 `AGENT.md` （告知 LLM 这套系统的规范）
-
-1.  执行 `command/init.md` 内容（仅需一次）。
-
-2.  执行 `command/refresh.md` （自动阅读并初始化 `skills/` 、`command/` 文件夹的全部内容）。
+执行 `startup.md`
 
 ### 💡 提问
 
