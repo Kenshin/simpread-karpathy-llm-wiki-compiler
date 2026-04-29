@@ -5,6 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![SimpRead](https://img.shields.io/badge/Made%20for-SimpRead-blue)](https://simpread.pro/)
 
+![](https://res.cloudinary.com/simpread/image/upload/v1777433659/config/eab020953988fb2f6940acdce74cbcf3.png)
+
 ## 🌟 核心理念
 
 作为 [简悦（SimpRead）](https://simpread.pro) 的创建者，我设计了这个框架，旨在弥合 “稍后阅读（Read-it-Later）” 与 “永远不读（Read-it-Never）” 之间的鸿沟。
@@ -142,7 +144,7 @@
 
 ### 🚀 首次使用
 
-执行 `startup.md` 即可完全全部初始化设置。
+执行 `startup.md`
 
 ### 💡 提问
 
