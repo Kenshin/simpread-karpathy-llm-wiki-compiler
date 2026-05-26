@@ -1,0 +1,4 @@
+interface:
+  display_name: "SimpRead MCP Helper"
+  short_description: "Search SimpRead items and snapshots."
+  default_prompt: "Use $simpread-mcp-helper to search SimpRead unread items, fetch the right snapshots, and turn them into a grounded structured briefing."

@@ -1,9 +1,10 @@
-# 🚀 简悦 Andrej Karpathy LLM Wiki 方案
+# 🚀 简悦 Andrej Karpathy LLM Wiki 方案 2.0 版
 
 > **从 “稍后读” 到 “终身维基” ：专为重度阅读者打造的个人知识内化方案。**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![SimpRead](https://img.shields.io/badge/Made%20for-SimpRead-blue)](https://simpread.pro/)
+[![Version](https://img.shields.io/badge/Version-2.0-brightgreen)](#-20-版本更新)
 
 ![](https://res.cloudinary.com/simpread/image/upload/v1777433659/config/eab020953988fb2f6940acdce74cbcf3.png)
 
@@ -41,6 +42,8 @@
 
 ## ✨ 特点与优势
 
+* **低消耗**：2.0 版增加了索引 `index_map.txt` 每次生成 Wiki 时 Token 消耗降低 **5-10 倍** [详细说明](#-20-版本更新)
+
 * **无须配置**：支持开箱即用。
 
 * **增量更新**：仅处理新增或修改的文件，节省 Token 并提高效率。
@@ -72,6 +75,76 @@
 
 ---
 
+## 🏗️ 整体架构
+
+```mermaid
+graph TB
+    classDef data fill:#4FD1C5,stroke:#333,color:#333;
+    classDef protocol fill:#667eea,stroke:#333,color:#fff;
+    classDef command fill:#B594FF,stroke:#333,color:#fff;
+    classDef feature fill:#F6AD55,stroke:#333,color:#333;
+    classDef output fill:#FC8181,stroke:#333,color:#fff;
+    classDef mcp fill:#48BB78,stroke:#333,color:#fff;
+    classDef source fill:#E2E8F0,stroke:#333,color:#333;
+
+    subgraph DATA["  数据层"]
+        direction LR
+        SR["简悦 SimpRead<br/>本地快照导出"] -->|标签/搜索/时间筛选| RAW["raw/<br/>原始素材库"]
+        RAW -->|双路径输入| COMPILER["Wiki 编译器<br/>AGENT.md"]
+        COMPILER -->|编译产物| WIKI["wiki/<br/>结构化维基"]
+        WIKI -->|衍生| OUTPUTS["outputs/<br/>报告 · 简报"]
+    end
+
+    subgraph PROTO["  协议层"]
+        direction LR
+        INIT["init.md<br/>全量初始化"]
+        ADD["add.md<br/>新增主题"]
+        UPDATE["update.md<br/>增量更新"]
+        AUDIT["audit.md<br/>深度审计"]
+        FIX["fix.md<br/>Sources 账本修复"]
+    end
+
+    subgraph CMD["  命令层"]
+        direction LR
+        ASK["/ask<br/>溯源问答"]
+        REPORT["/report<br/>可视化简报"]
+        GEN["/gen<br/>Skill 路由"]
+        TOPIC["/topic<br/>垂直挖掘"]
+        REFRESH["/refresh<br/>协议热重载"]
+    end
+
+    subgraph MCP["  MCP 实时检索层"]
+        direction LR
+        SEARCH["search_content<br/>全文搜索"]
+        TAG["search_tag<br/>标签筛选"]
+        DAILY["get_daily<br/>按日期获取"]
+        SNAP["get_snapshot<br/>快照正文"]
+    end
+
+    subgraph FEAT["  2.0 核心特性"]
+        direction LR
+        IDX["index_map.txt<br/>5-10x 节省 Token"]
+        INCR["增量感知<br/>~100x 变更检测"]
+        TRACE["原子化溯源<br/>本地快照链接"]
+        CHUNK["分块吞噬<br/>支持 1000+ 行"]
+        GRAPH["知识图谱<br/>Mermaid 可视化"]
+    end
+
+    CMD -->|调用| PROTO
+    PROTO -->|读写| DATA
+    CMD -->|实时查询| MCP
+    MCP -->|数据源| RAW
+    DATA -.->|优势| FEAT
+
+    class SR source;
+    class RAW,WIKI data;
+    class COMPILER,INIT,ADD,UPDATE,AUDIT,FIX protocol;
+    class ASK,REPORT,GEN,TOPIC,REFRESH command;
+    class SEARCH,TAG,DAILY,SNAP mcp;
+    class IDX,INCR,TRACE,CHUNK,GRAPH feature;
+    class OUTPUTS output;
+```
+
 ## 📂 目录结构说明
 
 ```text
@@ -94,11 +167,11 @@
 
 全量扫描 `raw/` 根目录，在 `wiki/` 创建相应的主题，建立 `INDEX.md` 索引锚点。
 
-### 1️⃣ 添加操作：开辟新主题 (`skills/add.md`)
+### 1️⃣ 添加操作：开辟新主题 `skills/add.md`
 
 识别 raw/ 下的新主题，自动注册（在 `wiki/` 创建对应 `.md` ）至 Wiki 体系。
 
-### 2️⃣ 更新操作：深化已有主题 (`skills/update.md`)
+### 2️⃣ 更新操作：深化已有主题 `skills/update.md`
 
 仅处理新增素材，执行增量追加。
 
@@ -106,19 +179,38 @@
 
 对特定主题重新深度扫描，找回隐藏的逻辑关系，丰富简略段落。
 
-### 4️⃣ 知识消费协议：`command/qa.md`
+### 4️⃣ Sources 账本修复：`skills/fix.md`
+
+2.0 版新增功能，用于「修复」 1.0 版映射关系的问题，即 `wiki/{主题}.md` 中缺失或不完整的 `## Sources（映射表）` 区块。当历史时期生成的 Wiki 页面缺少来源账本，或与 `raw/{主题}/index_map.txt` 不对齐时启动。
+
+**使用前提：**
+- 此功能依赖 `index_map.txt` 存在，此文件由 同步助手 1.5.2 版本提供。
+
+- **单主题修复**：`/gen fix.md {主题}` - 专门修复指定主题的 Sources 映射表
+- **批量修复**：`/gen fix.md` - 扫描 `wiki/INDEX.md`，批量修复所有可修复主题
+
+**使用场景：**
+- Wiki 页面存在但 Sources 区块缺失
+- Sources 区块中的快照链接不完整
+- raw 侧新增了 `index_map.txt`，需要对齐 wiki 侧账本
+
+**注意事项：**
+- 仅修改 `## Sources（映射表）` 区块，严禁修改正文其他部分
+- 若 `index_map.txt` 不存在，自动降级为直接扫描 `raw/{主题}/*.md` 重建账本
+
+### 5️⃣ 知识消费协议：`command/qa.md`
 
 强制执行 “知识库优先” ，当内部知识库无法满足回复时，将会引用外部知识体系。
 
-### 5️⃣ 快捷命令：`command/ask.md`
+### 6️⃣ 快捷命令：`command/ask.md`
 
 执行后，自动调用 `command/qa.md` 的回答规则，在之后将使用 `/ask [提问内容]` 提问。
 
-### 6️⃣ 执行 skills 命令：`command/generate.md`
+### 7️⃣ 执行 skills 命令：`command/generate.md`
 
 输入 `/gen [快捷指令]` 调用具体的 skills 命令。
 
-### 7️⃣ 执行 skills 命令：`command/report.md`
+### 8️⃣ 执行 skills 命令：`command/report.md`
 
 执行 `/report [主题]` 自动生成基于架构图的深度洞察简报。
 
@@ -126,13 +218,13 @@
 
 执行 `--output` 在输出简报的同时会同步保存到 `output/` 文件夹内，例如 `/refresh OpenAI --output`
 
-### 8️⃣ 执行 skills 命令：`command/refresh.md`
+### 9️⃣ 执行 skills 命令：`command/refresh.md`
 
 当修改 `AGENT.md` `skills/` `command/` 里面的内容后，需要使用此命令获取并理解这些内容。
 
 执行 `/refresh [文件名]` 仅重新读取指定文件的内容，例如 `/refresh audit.md`
 
-### 9️⃣ 执行 skills 命令：`command/startup.md`
+### 🔟 执行 skills 命令：`command/startup.md`
 
 当前库已经在使用了，只是迁移到新环境时执行 `startup.md`
 
@@ -207,6 +299,133 @@
 * **情况 F（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report 方案整理。`
 
 * **情况 G（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report -- mermaid 方案整理。`
+
+## 🔥 高级用法：MCP 工具集成
+
+本项目 2.0 版本新增 **MCP (Model Context Protocol) 工具集成**，让你可以直接查询简悦本地快照库，实现实时、精准的内容检索。
+
+> 📖 **完整文档**：[tools/README.md](tools/README.md)
+
+### 💡 核心价值
+
+| 传统方式（Wiki 扫描） | MCP 方式（实时查询） |
+|---------------------|-------------------|
+| 仅能查询 `raw/` 中的文件 | 直接查询 `simpread_config.json` 中的所有稍后读 |
+| 需要预先编译到 Wiki | 实时检索，无需预处理 |
+| 适合深度知识整理 | 适合快速内容检索和简报生成 |
+
+### 🎯 使用场景
+
+**场景 1：今日阅读回顾**
+```
+今日阅读回顾
+→ 自动获取今天收藏的所有文章，并生成简报
+
+今日阅读回顾 ~r
+→ 以简报形式返回，并将本地快照转换为原文链接（适合手机端）
+```
+
+**场景 2：关键词搜索**
+```
+请查询关键词 OpenAI
+→ 搜索所有包含"OpenAI"的文章，以简报形式返回
+
+查询关键词 openai 在此结果检索 马斯克 内容，并生成简报 ~r
+→ 先搜索"openai"，再在结果中筛选"马斯克"相关内容
+```
+
+**场景 3：标签筛选**
+```
+获取标签为 AI 的文章，并生成简报
+→ 获取所有标记为"AI"的文章，生成结构化简报
+```
+
+**场景 4：结合 Wiki 命令**
+```
+请查询关键词 OpenAI 在此结果中查询与 马斯克 的相关内容，并生成简报 -m ~r
+→ MCP 检索 + Wiki 生成 Mermaid 图表 + 原文链接转换
+```
+
+### 🛠️ 可用工具
+
+| 工具 | 功能 | 示例 |
+|------|------|------|
+| `get_daily` | 按日期获取内容 | 今日、本周、最近7天 |
+| `search_content` | 全文搜索 | 搜索"OpenAI" |
+| `search_tag` | 标签筛选 | 获取"AI"标签下的文章 |
+| `get_snapshot` | 获取快照正文 | 读取指定 ID 的完整内容 |
+| `get_unread_by_idx` | 获取文章元数据 | 获取标题、URL、时间等 |
+
+### 🔗 与 Wiki 方案的协作
+
+```
+📚 Wiki 方案：负责深度知识整理，生成结构化的 Wiki 页面
+🔎 MCP 工具：负责实时内容检索，生成动态简报
+
+两者结合，实现：
+- Wiki 提供深度和结构
+- MCP 提供广度和实时性
+```
+
+### ⚙️ 安装配置
+
+MCP 工具需要额外配置，详见：
+- [安装指南](tools/README.md#-安装配置)
+- [Claude Desktop 配置](tools/README.md#-claude-desktop)
+- [Claude Code 配置](tools/README.md#-claude-code-cli)
+- [Codex 配置](tools/README.md#-codex-cli)
+
+---
+
+## 🎉 2.0 版本更新
+
+### 💰 Token 消耗降低 **5-10 倍**
+
+通过引入 `index_map.txt` 映射表机制，实现**增量感知**，大幅减少不必要的文件读取。
+
+| 对比维度 | 1.x 版本 | 2.0 版本 | 提升 |
+|---------|---------|---------|------|
+| **变更检测** | 读取所有 raw 文件 | 仅读取 index_map.txt（几行） | **~50x** |
+| **快照提取** | 扫描全文提取链接 | 映射表直接获取 | **~10x** |
+| **增量更新** | 全量对比，耗时长 | 精准定位变化文件 | **~5-10x** |
+| **Sources 维护** | 手动或全量重建 | 自动对齐映射表 | **~3x** |
+
+**实际场景示例：**
+
+```
+假设：一个主题包含 10 个 raw 文件，每个文件 1000 行
+
+1.x 版本（无 index_map.txt）：
+  → 需要读取 10 个文件 = 10,000 行文本
+  → Token 消耗：约 50,000 tokens
+
+2.0 版本（有 index_map.txt）：
+  → 读取 index_map.txt = 10 行
+  → 仅 1 个文件变化，读取 1 个文件 = 1,000 行
+  → Token 消耗：约 5,000 tokens
+
+💡 节省比例：约 10 倍！
+```
+
+### 🆕 新增功能
+
+- ✅ **Sources 账本修复** (`skills/fix.md`) - 一键修复缺失的来源映射
+- ✅ **MCP 工具集成** (`tools/`) - 直接查询简悦本地快照
+- ✅ **跨环境命令解析** - Wiki 环境与 MCP 环境无缝协作
+- ✅ **智能降级机制** - 无 index_map.txt 时自动降级为原始扫描
+
+### 📦 如何升级
+
+**从 1.x 升级到 2.0：**
+
+1. 更新代码到 [最新版本](#-下载)
+2. 确保 raw 文件夹包含 `index_map.txt`（如无，系统会自动降级）
+3. 执行 `/gen fix.md` 批量修复 Sources 映射表
+4. 执行 `/refresh` 重新加载协议
+
+**新用户：**
+
+直接使用，开箱即用！
 
 ## 🖥 仅迁移到新的环境
 
