@@ -28,6 +28,26 @@ Recommended phrasing:
 - `今日阅读回顾 -r` → recap with citations replaced by original article URLs
 - `查询标签 AI战争 并生成简报 -r` → tag briefing with citations replaced by original article URLs
 - `查询 OpenAI 相关内容并生成简报 -r 方案` → keyword briefing with citations replaced by original article URLs
+- `--kami` means: after completing the base task and any citation rewriting, render the final output as a professional HTML document using the kami long-doc template, and save to `outputs/`.
+- `--kami` is a cross-environment universal modifier — it does not need `::mcp:` prefix.
+- Before executing, check if kami skill is available (read `command/render.md` for the pre-check logic). If not installed, prompt the user to install.
+- `--lite` means: render the final output as a lightweight HTML document using `tools/template/lite.html`, zero dependencies, saved to `outputs/`. This is the default rendering mode.
+- `--lite` is a cross-environment universal modifier — it does not need `::mcp:` prefix.
+- If neither `--lite` nor `--kami` is specified and a rendering modifier is implied, default to `--lite`.
+- If `-r` and `--kami` or `--lite` are both present, apply `-r` first (citation rewrite), then the rendering modifier (HTML output).
+- `--kami` / `--lite` do not change the retrieval scope or analytical structure — they only transform the final output format.
+
+Recommended phrasing with `--kami`:
+
+- `查询关键词 星巴克 并生成简报 --kami` → keyword briefing rendered as kami HTML
+- `今日阅读回顾 --kami` → reading recap rendered as kami HTML
+- `查询标签 AI战争 并生成简报 -r --kami` → tag briefing with citations replaced, then rendered as kami HTML
+
+Recommended phrasing with `--lite`:
+
+- `查询关键词 星巴克 并生成简报 --lite` → keyword briefing rendered as lite HTML
+- `今日阅读回顾 --lite` → reading recap rendered as lite HTML
+- `查询标签 AI战争 并生成简报 -r --lite` → tag briefing with citations replaced, then rendered as lite HTML
 
 ### Cross-Environment Command Protocol
 
@@ -173,9 +193,10 @@ When multiple output constraints appear together, apply them in this order:
 
 1. Preserve the base task intent of `xxxx`.
 2. Preserve any explicitly requested structure such as `严格按照输出规则输出`.
-3. Apply `-r` last as a citation-target rewrite step, replacing local snapshot links with original article URLs via `get_unread_by_idx`.
+3. Apply `-r` as a citation-target rewrite step, replacing local snapshot links with original article URLs via `get_unread_by_idx`.
+4. Apply `--lite` or `--kami` last as an HTML rendering step, converting the final markdown output into a styled HTML file saved to `outputs/`. See `command/render.md` for the full rendering specification. Default to `--lite` if neither is specified.
 
-This means `-r` changes the final citation targets, but should not change the retrieval scope, the analytical structure, or the requested report mode.
+This means `-r` changes the final citation targets, and `--lite` / `--kami` change the output format, but neither should change the retrieval scope or the analytical structure.
 
 ### 5. Match the output mode
 
@@ -206,7 +227,7 @@ When the user mentions `简报`, `生成简报`, or `输出简报`, the final ou
 
 Required sections: `核心架构图`, `关键演进/事实表`, `深度逻辑拆解`, `简报总结与行动建议`.
 
-`-m` uses `Mermaid`; `-a` uses `ASCII`; `-r` replaces local snapshot links with original article URLs; `::mcp:-r` forces MCP link rewriting in mixed Wiki/MCP requests.
+`-m` uses `Mermaid`; `-a` uses `ASCII`; `-r` replaces local snapshot links with original article URLs; `::mcp:-r` forces MCP link rewriting in mixed Wiki/MCP requests; `--lite` renders as lightweight HTML (default); `--kami` renders as kami HTML.
 
 If the user asks for a time-window recap without `简报`, use the normal recap workflow; if `简报` is also requested, keep recap retrieval but use the full `/report` structure for output.
 

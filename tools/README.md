@@ -61,6 +61,10 @@
 
 `简报`： 当用户提到此 `简报`, `生成简报`, or `输出简报` 时会调用系统默认的简报模板，生成包含 `核心架构图`, `关键演进/事实表`, `深度逻辑拆解`, `简报总结与行动建议` 的完整简报结构输出。
 
+`--kami`：跨环境通用排版修饰符。追加在任何命令末尾，将输出内容通过 kami 长文档模板排版为专业 HTML 文件，保存至 `outputs/` 目录。需要安装 kami 技能。与 `~r` 可同时使用（先替换链接，再排版输出）。
+
+`--lite`：跨环境通用排版修饰符（默认）。追加在任何命令末尾，将输出内容通过轻量模板排版为 HTML 文件，零依赖开箱即用，保存至 `outputs/` 目录。支持暗色模式，快照链接显示为纯数字 ID。与 `~r` 可同时使用。不指定 `--lite` 或 `--kami` 时默认走 `--lite`。
+
 ### 📅 日期筛选类
 
 #### `get_daily` - 按日期获取未读内容
@@ -132,6 +136,56 @@ MCP 工具可以与 [简悦 Andrej Karpathy LLM Wiki 方案](https://github.com/
 - 在结果中筛选 "马斯克" 相关内容（MCP 环境）
 - 使用 `-m` 参数（Wiki 环境，使用 Mermaid 方案生成图表报告）
 - 使用 `~r` 将本地快照链接转换为原始 URL（MCP 环境）
+
+### 🎨 结合 Kami 排版输出
+
+[Kami](https://kami.tw93.fun/index-zh.html) 是一套适合 AI 时代的排版设计系统，可将 Markdown 转换为专业级 HTML 文件。
+
+使用 `--kami` 修饰符可将 MCP 检索结果直接排版为专业 HTML 文件：
+
+```
+查询关键词 星巴克 在此结果中找出与新任CEO相关内容 --kami
+→ MCP 检索 + kami 排版 → outputs/星巴克-新任CEO.html
+
+/render 星巴克
+→ Wiki 条目 星巴克.md 排版为专业 HTML 文件（outputs/星巴克.html）
+
+查询标签 AI战争 并生成简报 -r --kami
+→ 标签检索 + 原文链接替换 + kami 排版 → outputs/AI战争.html
+```
+
+**解析：**
+- `--kami` 是跨环境通用修饰符，不需要 `::mcp:` 前缀
+- 若同时使用 `-r` 和 `--kami`，先执行链接替换，再执行排版
+- 需要安装 kami 技能，否则会提示安装
+
+详见 [tools/template/README.md](/tools/template/README.md)
+
+### 🪶 结合 Lite 轻量排版输出
+
+`--lite` 是默认排版方案，零依赖开箱即用。使用 `tools/template/lite.html` 模板，生成自包含 HTML 文件，支持暗色模式，默认 Mermaid 转手绘 SVG 方案，支持八种 SVG 图表组件。
+
+```
+查询关键词 星巴克 在此结果中找出与新任CEO相关内容 --lite
+→ MCP 检索 + lite 排版 → outputs/星巴克-新任CEO.html
+
+/render 星巴克 --lite
+→ Wiki 条目排版为轻量 HTML 文件（outputs/星巴克.html）
+
+查询标签 AI战争 并生成简报 -r --lite
+→ 标签检索 + 原文链接替换 + lite 排版 → outputs/AI战争.html
+
+今日阅读回顾 --lite
+→ 阅读回顾 + lite 排版 → outputs/今日阅读回顾.html
+```
+
+**解析：**
+- `--lite` 是跨环境通用修饰符，不需要 `::mcp:` 前缀
+- 零依赖，不需要安装任何额外 skill
+- 若同时使用 `-r` 和 `--lite`，先执行链接替换，再执行排版
+- 不指定 `--lite` 或 `--kami` 时，默认走 `--lite`
+
+详见 [tools/template/README.md](/tools/template/README.md)
 
 ### 🧷 定制环境变量
 

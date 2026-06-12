@@ -1,4 +1,4 @@
-# AGENT.md: LLM Wiki 维护协议 (v2.1)
+# AGENT.md: LLM Wiki 维护协议 (v2.2)
 
 ## 1. 角色定义
 你是一个高能力的“知识编译器”。你的任务是读取 `raw/` 中的碎片化来源，按照维基百科的逻辑，将其编译、去重、并链接为 `wiki/` 文件夹下的结构化知识库。
@@ -14,6 +14,10 @@
   - 包含一个 `INDEX.md`，作为全局索引和目录。
   - 每个主题页底部必须维护 `## Sources（映射表）` 区块，作为该 Wiki 页已消费来源的账本。
 - **outputs/**: 存放基于 Wiki 内容生成的报告、答案、复杂分析。
+- **tools/template/**: 存放 `--lite` 轻量排版方案的模板与规范（零依赖，与 `--kami` 互斥）。
+  - `lite.html`：主模板（CSS + HTML 骨架 + 暗色模式 + TOC 逻辑）
+  - `lite-diagrams.md`：8 种 SVG 图表组件规范
+  - `README.md`：设计系统文档与开发日志
 
 ## 3. 读取逻辑与输入分层 (The Compiler Flow)
 - **文件夹驱动**: 按主题文件夹逐一处理。
@@ -154,7 +158,7 @@ graph LR
 
 | 环境 | 命令来源 | 示例命令 | 修饰符定义位置 |
 |------|----------|----------|----------------|
-| **Wiki 环境** | `command/*.md` `skills/*.md` | `/report`, `/ask`, `/topic` | `command/report.md`, `command/ask.md` |
+| **Wiki 环境** | `command/*.md` `skills/*.md` | `/report`, `/ask`, `/render`, `/topic` | `command/report.md`, `command/ask.md`, `command/render.md` |
 | **MCP 环境** | `simpread-mcp-helper` | `search_content`, `get_snapshot` | `skills/simpread-mcp-helper/SKILL.md` |
 
 ### 8.2 修饰符冲突问题
@@ -166,6 +170,8 @@ graph LR
 | 修饰符 | Wiki 环境含义 | MCP 环境含义 |
 |--------|---------------|--------------|
 | `-r` | `--report` (生成简报) | 替换快照链接为原始 URL |
+| `--kami` | 调用 kami 技能，将输出内容排版为 HTML（保存至 `outputs/`） | 同 Wiki 环境 |
+| `--lite` | 使用轻量排版方案（默认模式，零依赖，基于 `tools/template/lite.html`） | 同 Wiki 环境 |
 | `/report 星巴克 -m ~r` | 同 `/report 星巴克 -m ::mcp:-r`，`~r` 自动展开为 `::mcp:-r` |
 
 ### 8.3 解析规则
@@ -194,6 +200,21 @@ graph LR
 **`~x` 前缀规则**：
 - 出现在修饰符前面的 `~x` 前缀，表示该修饰符属于 MCP 环境
 - `~x` 自动展开为 `::mcp:-x` 例如 `~r` → `::mcp:-r` ，`~a` → `::mcp:-a`
+
+**`--kami` 修饰符规则**：
+- `--kami` 是跨环境通用修饰符，在 Wiki 和 MCP 环境中含义相同
+- 不需要 `::mcp:` 前缀，直接使用 `--kami` 即可
+- 触发时读取 `command/render.md` 中的排版规范，将输出内容通过 kami 长文档模板排版为 HTML
+- 前置检查：若 kami 技能未安装，提示用户安装后继续
+- **注意**：`/render` 命令本身已内置 kami 排版，无需额外添加 `--kami`
+
+**`--lite` 修饰符规则**：
+- `--lite` 是跨环境通用修饰符，在 Wiki 和 MCP 环境中含义相同
+- 不需要 `::mcp:` 前缀，直接使用 `--lite` 即可
+- 触发时使用 `tools/template/lite.html` 零依赖轻量排版方案
+- **默认模式**：不指定 `--kami` 时自动使用 `--lite`
+- **与 `--kami` 互斥**：不能同时使用
+- 支持 `--mermaid` 参数：仅 `--lite` 模式下有效，使用 Mermaid CDN 渲染知识图谱
 
 ### 8.4 自动检测协议 (Smart Routing)
 
@@ -248,6 +269,42 @@ graph LR
   - 修饰符: -m (Mermaid 可视化)
   - 修饰符: ~r → 展开为 ::mcp:-r (MCP 环境)
   - 实际执行: /report -m + MCP -r (替换快照链接)
+
+输入: /report 星巴克 --kami
+解析:
+  - 主命令: /report (Wiki 环境)
+  - 修饰符: --kami (跨环境通用，调用 kami 排版)
+  - 实际执行: /report 流程生成内容 → 通过 kami long-doc 排版为 HTML → 保存至 outputs/星巴克.html
+
+输入: 查询关键词 星巴克 在此结果中找出与新任CEO相关的内容 --kami --svg
+解析:
+  - 主命令: 因为开头没有 / 所以属于 MCP 命令
+  - 修饰符: --kami (跨环境通用，调用 kami 排版) + --svg (Mermaid 转手绘 SVG)
+  - 实际执行: MCP 搜索流程生成内容 → 通过 kami long-doc 排版为 HTML → Mermaid 转 SVG → 保存至 outputs/星巴克-新任CEO.html
+
+输入: /render 星巴克
+解析:
+  - 主命令: /render (Wiki 环境，本身已内置 kami)
+  - 无额外修饰符
+  - 实际执行: 读取 wiki/星巴克.md → kami long-doc 排版 → 输出 outputs/星巴克.html
+
+输入: /render 星巴克 --lite
+解析:
+  - 主命令: /render (Wiki 环境)
+  - 修饰符: --lite (使用轻量排版方案)
+  - 实际执行: 读取 wiki/星巴克.md → 使用 tools/template/lite.html 排版 → 输出 outputs/星巴克.html
+
+输入: /render 星巴克 --lite --mermaid
+解析:
+  - 主命令: /render (Wiki 环境)
+  - 修饰符: --lite (轻量排版) + --mermaid (Mermaid CDN 渲染)
+  - 实际执行: 读取 wiki/星巴克.md → 使用 tools/template/lite.html 排版 → 知识图谱使用 Mermaid CDN → 输出 outputs/星巴克.html
+
+输入: 查询关键词 星巴克 在此结果中找出与新任CEO相关的内容 --lite
+解析:
+  - 主命令: 因为开头没有 / 所以属于 MCP 命令
+  - 修饰符: --lite (跨环境通用，使用轻量排版)
+  - 实际执行: MCP 搜索流程生成内容 → 通过 tools/template/lite.html 排版为 HTML → 保存至 outputs/星巴克-新任CEO.html
 ```
 
 ### 8.6 优先级规则

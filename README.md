@@ -1,10 +1,11 @@
-# 🚀 简悦 Andrej Karpathy LLM Wiki 方案 2.0 版
+# 🚀 简悦 Andrej Karpathy LLM Wiki 方案 3.0 版
 
 > **从 “稍后读” 到 “终身维基” ：专为重度阅读者打造的个人知识内化方案。**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![SimpRead](https://img.shields.io/badge/Made%20for-SimpRead-blue)](https://simpread.pro/)
-[![Version](https://img.shields.io/badge/Version-2.0-brightgreen)](#-20-版本更新)
+[![Version](https://img.shields.io/badge/Version-3.0-brightgreen)](https://github.com/Kenshin/simpread-karpathy-llm-wiki-compiler/releases/tag/v3.0.0)
+[![Changelog](https://img.shields.io/badge/Changelog-v1.0--v3.0-blue)](CHANGELOG.md)
 
 ![](https://res.cloudinary.com/simpread/image/upload/v1777433659/config/eab020953988fb2f6940acdce74cbcf3.png)
 
@@ -42,7 +43,7 @@
 
 ## ✨ 特点与优势
 
-* **低消耗**：2.0 版增加了索引 `index_map.txt` 每次生成 Wiki 时 Token 消耗降低 **5-10 倍** [详细说明](#-20-版本更新)
+* **低消耗**：2.0 版增加了索引 `index_map.txt` 每次生成 Wiki 时 Token 消耗降低 **5-10 倍** [详细说明](#-高级用法index_maptxt-生成工具)
 
 * **无须配置**：支持开箱即用。
 
@@ -55,6 +56,12 @@
 * **协议与数据解耦**：不依赖于特定 LLM 的长期记忆（Long-term Memory），而是依赖于本地文件夹中的结构化事实和操作协议。
 
 * **简报模式**：专门用于大量数据提取主题并生成简报，可直接生成 ASCII / Mermaid / 表格 / 关系图等结构。
+
+* **知识图谱可视化 (GraphLens)**：内置可视化浏览器工具，一键将 Wiki 中的 Mermaid 知识图谱渲染为可交互关系网络图，支持节点快照直达、Peek 侧边预览与多图谱切换 [详细介绍](#-graphlens让-wiki-知识-活-起来)
+
+* **排版系统**：内置 `--lite`（零依赖默认）和 `--kami`（需安装 skill）两套排版方案，将 Wiki 条目、简报、搜索结果一键渲染为高质量 HTML 文件。`--lite` 支持暗色模式、纯数字快照链接、8 种 SVG 图表组件 [详细介绍](#-高级用法排版系统) 并配套本地预览工具，一键查看渲染效果 [详细介绍](#%EF%B8%8F-高级用法renderpeek---本地预览)
+
+* **跨环境命令解析**：Wiki 环境（`/report`、`/ask`）与 MCP 环境（搜索）无缝协作，支持 `::mcp:` 前缀和 `~x` 缩写混用修饰符  [详细介绍](/tools/README.md)
 
 ## 🔥 相比 RAG 的优势
 
@@ -77,73 +84,9 @@
 
 ## 🏗️ 整体架构
 
-```mermaid
-graph TB
-    classDef data fill:#4FD1C5,stroke:#333,color:#333;
-    classDef protocol fill:#667eea,stroke:#333,color:#fff;
-    classDef command fill:#B594FF,stroke:#333,color:#fff;
-    classDef feature fill:#F6AD55,stroke:#333,color:#333;
-    classDef output fill:#FC8181,stroke:#333,color:#fff;
-    classDef mcp fill:#48BB78,stroke:#333,color:#fff;
-    classDef source fill:#E2E8F0,stroke:#333,color:#333;
+![整体架构](assets/architecture.svg)
 
-    subgraph DATA["  数据层"]
-        direction LR
-        SR["简悦 SimpRead<br/>本地快照导出"] -->|标签/搜索/时间筛选| RAW["raw/<br/>原始素材库"]
-        RAW -->|双路径输入| COMPILER["Wiki 编译器<br/>AGENT.md"]
-        COMPILER -->|编译产物| WIKI["wiki/<br/>结构化维基"]
-        WIKI -->|衍生| OUTPUTS["outputs/<br/>报告 · 简报"]
-    end
-
-    subgraph PROTO["  协议层"]
-        direction LR
-        INIT["init.md<br/>全量初始化"]
-        ADD["add.md<br/>新增主题"]
-        UPDATE["update.md<br/>增量更新"]
-        AUDIT["audit.md<br/>深度审计"]
-        FIX["fix.md<br/>Sources 账本修复"]
-    end
-
-    subgraph CMD["  命令层"]
-        direction LR
-        ASK["/ask<br/>溯源问答"]
-        REPORT["/report<br/>可视化简报"]
-        GEN["/gen<br/>Skill 路由"]
-        TOPIC["/topic<br/>垂直挖掘"]
-        REFRESH["/refresh<br/>协议热重载"]
-    end
-
-    subgraph MCP["  MCP 实时检索层"]
-        direction LR
-        SEARCH["search_content<br/>全文搜索"]
-        TAG["search_tag<br/>标签筛选"]
-        DAILY["get_daily<br/>按日期获取"]
-        SNAP["get_snapshot<br/>快照正文"]
-    end
-
-    subgraph FEAT["  2.0 核心特性"]
-        direction LR
-        IDX["index_map.txt<br/>5-10x 节省 Token"]
-        INCR["增量感知<br/>~100x 变更检测"]
-        TRACE["原子化溯源<br/>本地快照链接"]
-        CHUNK["分块吞噬<br/>支持 1000+ 行"]
-        GRAPH["知识图谱<br/>Mermaid 可视化"]
-    end
-
-    CMD -->|调用| PROTO
-    PROTO -->|读写| DATA
-    CMD -->|实时查询| MCP
-    MCP -->|数据源| RAW
-    DATA -.->|优势| FEAT
-
-    class SR source;
-    class RAW,WIKI data;
-    class COMPILER,INIT,ADD,UPDATE,AUDIT,FIX protocol;
-    class ASK,REPORT,GEN,TOPIC,REFRESH command;
-    class SEARCH,TAG,DAILY,SNAP mcp;
-    class IDX,INCR,TRACE,CHUNK,GRAPH feature;
-    class OUTPUTS output;
-```
+> Mermaid 源文件：[assets/architecture.mmd](assets/architecture.mmd)
 
 ## 📂 目录结构说明
 
@@ -154,7 +97,15 @@ graph TB
 │   ├── 主题B/
 │   ├── 主题C/
 ├── wiki/             # 目标知识库：编译后的 Wiki 页面 (*.md)
+├── tools/            # 工具集
+│   ├── indexes/      # index_map.txt 生成工具（详见下方说明）
+│   ├── graph/        # GraphLens 知识图谱可视化工具（详见下方说明）
+│   ├── render/       # RenderPeek HTML 预览工具（详见下方说明）
+│   ├── template/     # 排版模板系统（lite.html + lite-diagrams.md）
+│   ├── mcp/          # MCP 服务器
+│   └── skills/       # Skill 技能
 ├── skills/           # 核心技能库
+├── assets/           # 项目资源（架构图 SVG + Mermaid 源文件）
 ├── command/          # 常用命令
 └── AGENT.md          # 全局元协议：定义 AI 执行任务时的基本准则
 ```
@@ -184,7 +135,7 @@ graph TB
 2.0 版新增功能，用于「修复」 1.0 版映射关系的问题，即 `wiki/{主题}.md` 中缺失或不完整的 `## Sources（映射表）` 区块。当历史时期生成的 Wiki 页面缺少来源账本，或与 `raw/{主题}/index_map.txt` 不对齐时启动。
 
 **使用前提：**
-- 此功能依赖 `index_map.txt` 存在，此文件由 同步助手 1.5.2 版本提供。
+- 此功能依赖 `index_map.txt` 存在，此文件由 [同步助手 ≥ 1.5.2](https://github.com/Kenshin/simpread/discussions/3864#discussioncomment-16566521) 自动生成，如果是非简悦用户，也可使用 `tools/indexes/` 下的脚本手动生成，详见 [index_map.txt 生成工具](#-indexmaptxt-生成工具)。
 
 - **单主题修复**：`/gen fix.md {主题}` - 专门修复指定主题的 Sources 映射表
 - **批量修复**：`/gen fix.md` - 扫描 `wiki/INDEX.md`，批量修复所有可修复主题
@@ -210,21 +161,27 @@ graph TB
 
 输入 `/gen [快捷指令]` 调用具体的 skills 命令。
 
-### 8️⃣ 执行 skills 命令：`command/report.md`
+### 8️⃣ 输出简报：`command/report.md`
 
 执行 `/report [主题]` 自动生成基于架构图的深度洞察简报。
 
 生成图表时包含了 `ASCII` （默认）和 `Mermaid` 方案，可通过 `/report --mermaid` 或 `/report -- ascii` 切换。
 
-执行 `--output` 在输出简报的同时会同步保存到 `output/` 文件夹内，例如 `/refresh OpenAI --output`
+执行 `--output` 在输出简报的同时会同步保存到 `output/` 文件夹内，例如 `/report OpenAI --output`
 
-### 9️⃣ 执行 skills 命令：`command/refresh.md`
+### 9️⃣ 排版系统：`command/render.md`
+
+将 Wiki 条目、简报、搜索结果渲染为 HTML 文件。内置 `--lite`（零依赖默认）和 `--kami`（需安装 skill）两套方案，可附加在 `/render`、`/report`、`/ask` 或 MCP 搜索命令之后。
+
+📖 **详细介绍**：[高级用法：排版系统](#-高级用法排版系统) ｜ [tools/template/README.md](tools/template/README.md)
+
+### 🔟 执行 skills 命令：`command/refresh.md`
 
 当修改 `AGENT.md` `skills/` `command/` 里面的内容后，需要使用此命令获取并理解这些内容。
 
 执行 `/refresh [文件名]` 仅重新读取指定文件的内容，例如 `/refresh audit.md`
 
-### 🔟 执行 skills 命令：`command/startup.md`
+### #️⃣ 执行 skills 命令：`command/startup.md`
 
 当前库已经在使用了，只是迁移到新环境时执行 `startup.md`
 
@@ -296,9 +253,11 @@ graph TB
 
 * **情况 E（简报）**：输入 `/report [主题]`。
 
-* **情况 F（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report 方案整理。`
+* **情况 F（排版）**：输入 `/render [主题] --lite` 将 Wiki 条目排版为 HTML 文件（默认 `--lite`，也可用 `--kami`）。
 
-* **情况 G（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report -- mermaid 方案整理。`
+* **情况 G（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report 方案整理。`
+
+* **情况 H（高级用法）**： 输入 `/ask 请在 AI 相关内容中检索 OpenAI CEO 相关内容，并按照 /report -- mermaid 方案整理。`
 
 ## 🔥 高级用法：MCP 工具集成
 
@@ -346,6 +305,18 @@ graph TB
 → MCP 检索 + Wiki 生成 Mermaid 图表 + 原文链接转换
 ```
 
+**场景 5：排版输出**
+```
+查询关键词 星巴克 在此结果中找出与新任CEO相关内容 --lite
+→ MCP 检索 + lite 排版 → outputs/星巴克-新任CEO.html
+
+查询关键词 星巴克 在此结果中找出与新任CEO相关内容 --kami
+→ MCP 检索 + kami 排版 → outputs/星巴克-新任CEO.html
+
+/render 星巴克 --lite
+→ Wiki 条目排版为轻量 HTML 文件（outputs/星巴克.html）
+```
+
 ### 🛠️ 可用工具
 
 | 工具 | 功能 | 示例 |
@@ -377,9 +348,121 @@ MCP 工具需要额外配置，详见：
 
 ---
 
-## 🎉 2.0 版本更新
+## 🔧 高级用法：index_map.txt 生成工具
 
-### 💰 Token 消耗降低 **5-10 倍**
+`index_map.txt` 是 2.0 版本增量感知的核心，用于建立 `raw/` 下 `.md` 文件与简悦本地快照之间的映射关系。
+
+### 📝 生成方式
+
+`index_map.txt` 有两种来源：
+
+| 方式 | 说明 |
+|------|------|
+| **同步助手自动生成** | 同步助手 ≥ 1.5.2 版本在导出本地快照时自动生成，无需手动操作 |
+| **本工具手动生成** | 当 `index_map.txt` 缺失或需要重新生成时，使用 `tools/indexes/` 下的脚本 |
+
+### 🛠️ 多平台脚本
+
+提供 4 种语言实现，可根据运行环境选用，输出完全一致。
+
+| 文件 | 平台 | 依赖 |
+|------|------|------|
+| `generate.sh` | macOS + Linux | bash, sed, awk |
+| `generate.js` | 跨平台 | Node.js |
+| `generate.py` | 跨平台 | Python 3.9+ |
+| `generate.bat` + `generate.ps1` | Windows | PowerShell 5.1+ |
+
+### 💡 使用方式
+
+```bash
+# 扫描 raw/ 下全部目录
+bash tools/indexes/generate.sh -a
+
+# 扫描指定目录
+node tools/indexes/generate.js -m 霸王茶姬 瑞幸
+```
+
+> 📖 **完整文档**：[tools/indexes/README.md](tools/indexes/README.md)
+
+## 🔍 高级用法：GraphLens - 让 Wiki 知识「活」起来
+
+![image-20260528191559140](https://res.cloudinary.com/simpread/image/upload/v1779966962/config/fafc4e47c23a6d28d50bbfd3b8109e65.png)
+
+Wiki 是线性的文字，但知识本身是网状的。**GraphLens** 是 3.0.0 版增加的一个可视化浏览器工具，能将 Wiki 中的 Mermaid 知识图谱自动渲染为可交互的关系网络图。
+
+此工具位于 `tools/graph` 目录下。
+
+### 它能做什么？
+
+- **一键查看**：从下拉菜单选择任意 Wiki 文件，自动提取其中的知识图谱并渲染
+- **关系洞察**：不同类型的实体（人物、组织、事件）用不同颜色区分，一眼看出知识结构
+- **快照直达**：点击任意节点或链接，直接打开对应的简悦本地快照原文
+- **Peek 模式**：类似 Notion 的侧边预览，不离开当前页面即可阅读原始来源
+- **多图谱支持**：一个 Wiki 文件中包含多个图谱时，可分别查看或合并展示
+- **拖拽布局**：左右分栏宽度可自由拖拽调整
+
+### 如何使用？
+
+```bash
+# 进入工具目录并启动
+cd tools/graph
+./start.sh        # macOS / Linux
+start.bat         # Windows
+```
+
+浏览器打开 `http://localhost:9234`，从下拉菜单选择 Wiki 文件即可。
+
+### 简悦用户
+
+如果你是简悦用户的话，当设置完 [raw 目录](https://github.com/Kenshin/simpread/discussions/3864#discussioncomment-16566521) 后，即可直接在浏览器中打开 [http://localhost:7026/rag/wiki/index/](http://localhost:7026/rag/wiki/index/) 查看。
+
+> 📖 **完整文档**：[tools/indexes/README.md](tools/graph/README.md)
+
+## 🎨 高级用法：排版系统
+
+Wiki 是 Markdown，但分享和阅读时需要更好的视觉呈现。**排版系统**将 Wiki 条目、简报、搜索结果一键渲染为高质量 HTML 文件。
+
+内置两种排版方案：
+
+| 方案 | 标识 | 特点 |
+|------|------|------|
+| **Lite**（默认） | `--lite` | 零依赖开箱即用，暗色模式，LXGW WenKai 字体，8 种 SVG 图表组件 |
+| **Kami** | `--kami` | 需安装 [Kami](https://github.com/tw93/kami) skill，支持 PDF 输出，14 种图表组件 |
+
+`--lite` / `--kami` 是跨环境通用修饰符，可附加在任何产出内容的命令之后：
+
+```
+/render 星巴克 --lite          ← Wiki 条目直接排版
+/report 星巴克 --lite          ← 生成简报后排版
+查询关键词 星巴克 --lite        ← MCP 搜索后排版
+```
+
+不指定时默认走 `--lite`。输出至 `outputs/` 目录，纯数字快照链接（如 `4873`）可点击跳转原文。
+
+> 📖 **完整文档**：[tools/template/README.md](tools/template/README.md)
+
+## 👁️ 高级用法：RenderPeek - 本地预览
+
+排版系统输出的 HTML 文件保存在 `outputs/` 目录下。**RenderPeek** 是一个轻量本地预览工具，让你无需手动打开文件即可在浏览器中即时检查排版效果。
+
+此工具位于 `tools/render` 目录下。
+
+```bash
+# 进入工具目录并启动
+cd tools/render
+./start.sh        # macOS / Linux
+start.bat         # Windows
+```
+
+浏览器打开 `http://localhost:9235`，从下拉菜单选择 HTML 文件即可预览。支持暗色模式、禁用缓存（始终显示最新版本）。
+
+无需安装任何 npm 依赖，Node.js 环境即可运行。
+
+> 📖 **完整文档**：[tools/render/README.md](tools/render/README.md)
+
+---
+
+## 💰 Token 消耗降低 **5-10 倍**
 
 通过引入 `index_map.txt` 映射表机制，实现**增量感知**，大幅减少不必要的文件读取。
 
@@ -407,21 +490,15 @@ MCP 工具需要额外配置，详见：
 💡 节省比例：约 10 倍！
 ```
 
-### 🆕 新增功能
-
-- ✅ **Sources 账本修复** (`skills/fix.md`) - 一键修复缺失的来源映射
-- ✅ **MCP 工具集成** (`tools/`) - 直接查询简悦本地快照
-- ✅ **跨环境命令解析** - Wiki 环境与 MCP 环境无缝协作
-- ✅ **智能降级机制** - 无 index_map.txt 时自动降级为原始扫描
-
-### 📦 如何升级
-
-**从 1.x 升级到 2.0：**
+## 📦 如何升级
 
 1. 更新代码到 [最新版本](#-下载)
-2. 确保 raw 文件夹包含 `index_map.txt`（如无，系统会自动降级）
-3. 执行 `/gen fix.md` 批量修复 Sources 映射表
-4. 执行 `/refresh` 重新加载协议
+
+2. 确保 raw 文件夹包含 `index_map.txt`（[同步助手 ≥ 1.5.2](https://github.com/Kenshin/simpread/discussions/3864#discussioncomment-16566521) 自动生成，或使用 `tools/indexes/` 脚本手动生成；如无，系统会自动降级为原始扫描）
+
+3. 执行 `/refresh` 重新加载协议
+
+4. 执行 `/gen fix.md` 批量修复旧版本缺失的内容。
 
 **新用户：**
 
@@ -434,6 +511,24 @@ MCP 工具需要额外配置，详见：
 假设你已在使用这套 LLM Wiki 了（也就是 `wiki/` 积累了很多内容），当迁移到新环境中，仅需要执行 `startup.md`
 
 ✅ Done！
+
+## 📋 命令总览
+
+| 命令 | 入口 | 目标文件 | 职责 | 版本 |
+|------|------|----------|------|------|
+| `/gen init.md` | `/gen` 路由 | `skills/init.md` | 全量扫描 `raw/` 目录，从零构建所有主题的 Wiki 页面并注册索引 | 1.0 |
+| `/gen add.md` | `/gen` 路由 | `skills/add.md` | 识别 `raw/` 下新增的主题文件夹，自动创建对应的 Wiki 页面 | 1.0 |
+| `/gen update.md` | `/gen` 路由 | `skills/update.md` | 对已有主题执行增量更新，仅处理新增素材和快照变化 | 1.0 |
+| `/gen audit.md` | `/gen` 路由 | `skills/audit.md` | 深度审计指定主题，找回遗漏的因果链、人物背景和本地快照链接 | 1.0 |
+| `/gen fix.md` | `/gen` 路由 | `skills/fix.md` | 修复或重建 Wiki 页面的 `## Sources（映射表）` 账本与知识图谱 | 2.0 |
+| `/topic` | 独立命令 | `command/topic.md` | 从泛主题中垂直挖掘特定子对象的信息，编译为独立 Wiki 页面 | 1.0.1 |
+| `/ask` | 独立命令 | `command/ask.md` | 基于 Wiki 和 Raw 数据的精准溯源问答，每个结论附带本地快照链接 | 1.0 |
+| `/report` | 独立命令 | `command/report.md` | 生成可视化深度简报，支持 ASCII / Mermaid 图表，包含架构图+事实表+逻辑拆解 | 1.0 |
+| `/render` | 独立命令 | `command/render.md` | 排版系统：将 Wiki 条目、简报、搜索结果渲染为 HTML（`--lite` 默认 / `--kami`） | 3.0 |
+| `/refresh` | 独立命令 | `command/refresh.md` | 热重载协议：重新读取 `skills/` 和 `command/` 下的所有文件，强制对齐最新逻辑 | 1.0 |
+| `/startup` | 独立命令 | `command/startup.md` | 首次使用或迁移到新环境时执行，加载并确认所有系统协议 | 1.0 |
+
+**路由规则**：`/gen` 是 skill 调度入口，负责将命令分发到 `skills/` 下的具体执行文件；独立命令直接在 `command/` 下定义，各自拥有独立的执行流程。两者职责不同，不合并。
 
 ## 🖼 截图
 
@@ -477,6 +572,8 @@ MCP 工具需要额外配置，详见：
 
 - **海量吞噬**：针对数千个文件可能带来的上下文溢出问题，内置了**动态行数预检**与**分块流式读取**机制。
 
+- **GraphLens 可视化**：通过同步助手设置完 raw 目录后，可直接在浏览器打开 `http://localhost:7026/rag/wiki/index/` 使用 GraphLens 知识图谱可视化工具，点击节点即可跳转简悦本地快照原文 [详细介绍](#-graphlens让-wiki-知识-活-起来)
+
 ### 📚 使用前提
 
 1. 用户需配置 [本地知识库](https://www.yuque.com/kenshin/simpread/wkswh7)。
@@ -506,6 +603,10 @@ MCP 工具需要额外配置，详见：
 分别使用了 `Google Gemini Flash` · `GPT-5.4` · `MiniMax-M2.7` 模型。
 
 ---
+
+## 📋 版本历史
+
+查看 [CHANGELOG.md](CHANGELOG.md) 了解从 1.0 到 3.0 的完整更新记录，包括 index_map.txt 增量感知、MCP 工具集成、GraphLens 知识图谱、排版系统等重大功能更新。
 
 ## 🤝 贡献与反馈
 
