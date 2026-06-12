@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" width="960" height="680">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow-claude" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#5a5a5a"/>
+    </marker>
+    <filter id="shadow-soft">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000010"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="680" fill="#f8f6f3"/>
+
+  <text x="480" y="42" text-anchor="middle" fill="#1a1a1a" font-size="22" font-weight="700">简悦 LLM Wiki Knowledge Compiler v3.0</text>
+  <line x1="280" y1="56" x2="680" y2="56" stroke="#d4d0cc" stroke-width="1.5"/>
+
+  <rect x="190" y="80" width="160" height="36" rx="18" fill="#a8c5e6" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="270" y="96" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="600">信息获取</text>
+  <text x="270" y="110" text-anchor="middle" fill="#6a6a6a" font-size="11">简悦导入 raw</text>
+
+  <text x="366" y="102" text-anchor="middle" fill="#5a5a5a" font-size="16">→</text>
+
+  <rect x="386" y="80" width="160" height="36" rx="18" fill="#9dd4c7" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="466" y="96" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="600">信息整理</text>
+  <text x="466" y="110" text-anchor="middle" fill="#6a6a6a" font-size="11">Wiki 编译系统</text>
+
+  <text x="562" y="102" text-anchor="middle" fill="#5a5a5a" font-size="16">→</text>
+
+  <rect x="582" y="80" width="160" height="36" rx="18" fill="#a8c5e6" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="662" y="96" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="600">信息输出</text>
+  <text x="662" y="110" text-anchor="middle" fill="#6a6a6a" font-size="11">排版系统</text>
+
+  <text x="60" y="158" fill="#6a6a6a" font-size="13" font-weight="600">数据层</text>
+
+  <rect x="60" y="165" width="120" height="55" rx="12" fill="#a8c5e6" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+  <text x="120" y="188" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="600">简悦 SimpRead</text>
+  <text x="120" y="206" text-anchor="middle" fill="#6a6a6a" font-size="11">本地快照导出</text>
+
+  <text x="195" y="196" text-anchor="middle" fill="#5a5a5a" font-size="16">→</text>
+
+  <rect x="210" y="165" width="120" height="55" rx="12" fill="#a8c5e6" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+  <text x="270" y="188" text-anchor="middle" fill="#1a1a1a" font-size="14" font-weight="600">raw/</text>
+  <text x="270" y="206" text-anchor="middle" fill="#6a6a6a" font-size="11">原始素材库</text>
+
+  <text x="345" y="196" text-anchor="middle" fill="#5a5a5a" font-size="16">→</text>
+
+  <rect x="360" y="165" width="120" height="55" rx="12" fill="#4fd1c5" stroke="#0d9488" stroke-width="2.5" filter="url(#shadow-soft)"/>
+  <text x="420" y="185" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700">index_map.txt</text>
+  <text x="420" y="203" text-anchor="middle" fill="#e0f2f1" font-size="11">增量感知映射表</text>
+
+  <text x="495" y="196" text-anchor="middle" fill="#5a5a5a" font-size="16">→</text>
+
+  <rect x="510" y="165" width="120" height="55" rx="12" fill="#e8e6e3" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+  <text x="570" y="188" text-anchor="middle" fill="#1a1a1a" font-size="14" font-weight="600">Wiki 编译器</text>
+  <text x="570" y="206" text-anchor="middle" fill="#6a6a6a" font-size="11">AGENT.md + Skills</text>
+
+  <text x="645" y="196" text-anchor="middle" fill="#5a5a5a" font-size="16">→</text>
+
+  <rect x="660" y="165" width="120" height="55" rx="12" fill="#a8c5e6" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+  <text x="720" y="188" text-anchor="middle" fill="#1a1a1a" font-size="14" font-weight="600">wiki/</text>
+  <text x="720" y="206" text-anchor="middle" fill="#6a6a6a" font-size="11">结构化维基</text>
+
+  <text x="795" y="196" text-anchor="middle" fill="#5a5a5a" font-size="16">→</text>
+
+  <rect x="810" y="165" width="120" height="55" rx="12" fill="#f5c5a3" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+  <text x="870" y="188" text-anchor="middle" fill="#1a1a1a" font-size="14" font-weight="600">outputs/</text>
+  <text x="870" y="206" text-anchor="middle" fill="#6a6a6a" font-size="11">HTML 产物</text>
+
+  <text x="60" y="268" fill="#6a6a6a" font-size="13" font-weight="600">协议层</text>
+
+  <rect x="60" y="275" width="560" height="75" rx="12" fill="#ffffff" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+
+  <rect x="108" y="288" width="85" height="48" rx="10" fill="#e8e6e3" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="150" y="308" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">init.md</text>
+  <text x="150" y="326" text-anchor="middle" fill="#6a6a6a" font-size="10">全量初始化</text>
+
+  <rect x="203" y="288" width="85" height="48" rx="10" fill="#e8e6e3" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="245" y="308" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">add.md</text>
+  <text x="245" y="326" text-anchor="middle" fill="#6a6a6a" font-size="10">新增主题</text>
+
+  <rect x="298" y="288" width="85" height="48" rx="10" fill="#e8e6e3" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="340" y="308" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">update.md</text>
+  <text x="340" y="326" text-anchor="middle" fill="#6a6a6a" font-size="10">增量更新</text>
+
+  <rect x="393" y="288" width="85" height="48" rx="10" fill="#e8e6e3" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="435" y="308" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">audit.md</text>
+  <text x="435" y="326" text-anchor="middle" fill="#6a6a6a" font-size="10">深度审计</text>
+
+  <rect x="488" y="288" width="85" height="48" rx="10" fill="#e8e6e3" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="530" y="308" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">fix.md</text>
+  <text x="530" y="326" text-anchor="middle" fill="#6a6a6a" font-size="10">版本升级</text>
+
+  <text x="60" y="388" fill="#6a6a6a" font-size="13" font-weight="600">命令层</text>
+
+  <rect x="60" y="395" width="560" height="75" rx="12" fill="#ffffff" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+
+  <rect x="108" y="408" width="85" height="48" rx="10" fill="#f4e4c1" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="150" y="428" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">/ask</text>
+  <text x="150" y="446" text-anchor="middle" fill="#6a6a6a" font-size="10">溯源问答</text>
+
+  <rect x="203" y="408" width="85" height="48" rx="10" fill="#f4e4c1" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="245" y="428" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">/report</text>
+  <text x="245" y="446" text-anchor="middle" fill="#6a6a6a" font-size="10">可视化简报</text>
+
+  <rect x="298" y="408" width="85" height="48" rx="10" fill="#f4e4c1" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="340" y="428" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">/gen</text>
+  <text x="340" y="446" text-anchor="middle" fill="#6a6a6a" font-size="10">Skill路由</text>
+
+  <rect x="393" y="408" width="85" height="48" rx="10" fill="#f4e4c1" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="435" y="428" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">/topic</text>
+  <text x="435" y="446" text-anchor="middle" fill="#6a6a6a" font-size="10">垂直挖掘</text>
+
+  <rect x="488" y="408" width="85" height="48" rx="10" fill="#f4e4c1" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="530" y="428" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">/render</text>
+  <text x="530" y="446" text-anchor="middle" fill="#6a6a6a" font-size="10">排版输出</text>
+
+  <text x="660" y="268" fill="#6a6a6a" font-size="13" font-weight="600">MCP 实时检索</text>
+
+  <rect x="660" y="275" width="270" height="195" rx="12" fill="#ffffff" stroke="#2d8a6e" stroke-width="2.5" filter="url(#shadow-soft)"/>
+  <text x="680" y="298" fill="#6a6a6a" font-size="11">直接查询 simpread_config.json</text>
+
+  <rect x="680" y="312" width="230" height="30" rx="8" fill="#9dd4c7" stroke="#2d8a6e" stroke-width="1.5"/>
+  <text x="795" y="332" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">search_content · 全文搜索</text>
+
+  <rect x="680" y="352" width="230" height="30" rx="8" fill="#9dd4c7" stroke="#2d8a6e" stroke-width="1.5"/>
+  <text x="795" y="372" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">search_tag · 标签筛选</text>
+
+  <rect x="680" y="392" width="230" height="30" rx="8" fill="#9dd4c7" stroke="#2d8a6e" stroke-width="1.5"/>
+  <text x="795" y="412" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">get_daily · 按日期获取</text>
+
+  <rect x="680" y="432" width="230" height="30" rx="8" fill="#9dd4c7" stroke="#2d8a6e" stroke-width="1.5"/>
+  <text x="795" y="452" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">get_snapshot · 快照正文</text>
+
+  <text x="60" y="518" fill="#6a6a6a" font-size="13" font-weight="600">核心特性</text>
+
+  <rect x="60" y="525" width="870" height="75" rx="12" fill="#ffffff" stroke="#4a4a4a" stroke-width="2" filter="url(#shadow-soft)"/>
+
+  <rect x="120.0" y="548" width="150" height="30" rx="8" fill="#c4b8d8" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="195.0" y="567" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="600">index_map.txt · 5-10x 节省</text>
+
+  <rect x="290.0" y="548" width="130" height="30" rx="8" fill="#c4b8d8" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="355.0" y="567" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="600">原子溯源 · 快照链接</text>
+
+  <rect x="440.0" y="548" width="130" height="30" rx="8" fill="#c4b8d8" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="505.0" y="567" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="600">知识图谱 · GraphLens</text>
+
+  <rect x="590.0" y="548" width="130" height="30" rx="8" fill="#c4b8d8" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="655.0" y="567" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="600">排版系统 · 输出HTML</text>
+
+  <rect x="740.0" y="548" width="130" height="30" rx="8" fill="#c4b8d8" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="805.0" y="567" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="600">增量感知 · ~100x</text>
+
+  <rect x="60" y="626" width="870" height="40" rx="8" fill="#ffffff" stroke="#4a4a4a" stroke-width="1.5"/>
+
+  <text x="95" y="651" fill="#1a1a1a" font-size="11" font-weight="600">图例:</text>
+
+  <rect x="135" y="641" width="12" height="12" rx="3" fill="#a8c5e6" stroke="#4a4a4a" stroke-width="1"/>
+  <text x="151" y="652" fill="#6a6a6a" font-size="10">数据</text>
+
+  <rect x="195" y="641" width="12" height="12" rx="3" fill="#4fd1c5" stroke="#4a4a4a" stroke-width="1"/>
+  <text x="211" y="652" fill="#6a6a6a" font-size="10">重点</text>
+
+  <rect x="255" y="641" width="12" height="12" rx="3" fill="#e8e6e3" stroke="#4a4a4a" stroke-width="1"/>
+  <text x="271" y="652" fill="#6a6a6a" font-size="10">协议</text>
+
+  <rect x="315" y="641" width="12" height="12" rx="3" fill="#f4e4c1" stroke="#4a4a4a" stroke-width="1"/>
+  <text x="331" y="652" fill="#6a6a6a" font-size="10">命令</text>
+
+  <rect x="375" y="641" width="12" height="12" rx="3" fill="#9dd4c7" stroke="#4a4a4a" stroke-width="1"/>
+  <text x="391" y="652" fill="#6a6a6a" font-size="10">MCP</text>
+
+  <rect x="435" y="641" width="12" height="12" rx="3" fill="#c4b8d8" stroke="#4a4a4a" stroke-width="1"/>
+  <text x="451" y="652" fill="#6a6a6a" font-size="10">特性</text>
+
+  <rect x="495" y="641" width="12" height="12" rx="3" fill="#f5c5a3" stroke="#4a4a4a" stroke-width="1"/>
+  <text x="511" y="652" fill="#6a6a6a" font-size="10">输出</text>
+
+  <line x1="560" y1="634" x2="560" y2="658" stroke="#d4d0cc" stroke-width="1"/>
+
+  <text x="578" y="651" fill="#1a1a1a" font-size="11" font-weight="600">排版方案:</text>
+  <rect x="650" y="639" width="50" height="18" rx="5" fill="#f5c5a3" stroke="#4a4a4a" stroke-width="1.2"/>
+  <text x="675" y="652" text-anchor="middle" fill="#1a1a1a" font-size="10" font-weight="600">--lite</text>
+  <text x="706" y="652" fill="#6a6a6a" font-size="10">零依赖</text>
+  <rect x="762" y="639" width="54" height="18" rx="5" fill="#f5c5a3" stroke="#4a4a4a" stroke-width="1.2"/>
+  <text x="789" y="652" text-anchor="middle" fill="#1a1a1a" font-size="10" font-weight="600">--kami</text>
+  <text x="822" y="652" fill="#6a6a6a" font-size="10">专业排版</text>
+
+</svg>

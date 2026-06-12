@@ -1,0 +1,68 @@
+graph TB
+    classDef data fill:#a8c5e6,stroke:#4a4a4a,color:#1a1a1a;
+    classDef protocol fill:#e8e6e3,stroke:#4a4a4a,color:#1a1a1a;
+    classDef command fill:#f4e4c1,stroke:#4a4a4a,color:#1a1a1a;
+    classDef feature fill:#c4b8d8,stroke:#4a4a4a,color:#1a1a1a;
+    classDef output fill:#f5c5a3,stroke:#4a4a4a,color:#1a1a1a;
+    classDef mcp fill:#9dd4c7,stroke:#4a4a4a,color:#1a1a1a;
+    classDef source fill:#a8c5e6,stroke:#4a4a4a,color:#1a1a1a;
+    classDef highlight fill:#4fd1c5,stroke:#0d9488,color:#fff;
+
+    subgraph DATA["  数据层"]
+        direction LR
+        SR["简悦 SimpRead<br/>本地快照导出"] --> RAW["raw/<br/>原始素材库"]
+        RAW --> IDX_NODE["index_map.txt<br/>增量感知映射表"]
+        IDX_NODE --> COMPILER["Wiki 编译器<br/>AGENT.md + Skills"]
+        COMPILER --> WIKI["wiki/<br/>结构化维基"]
+        WIKI --> OUTPUTS["outputs/<br/>HTML 产物"]
+    end
+
+    subgraph PROTO["  协议层"]
+        direction LR
+        INIT["init.md<br/>全量初始化"]
+        ADD["add.md<br/>新增主题"]
+        UPDATE["update.md<br/>增量更新"]
+        AUDIT["audit.md<br/>深度审计"]
+        FIX["fix.md<br/>版本升级"]
+    end
+
+    subgraph CMD["  命令层"]
+        direction LR
+        ASK["/ask<br/>溯源问答"]
+        REPORT["/report<br/>可视化简报"]
+        GEN["/gen<br/>Skill 路由"]
+        TOPIC["/topic<br/>垂直挖掘"]
+        RENDER["/render<br/>排版输出"]
+    end
+
+    subgraph MCPBOX["  MCP 实时检索"]
+        direction LR
+        SEARCH["search_content<br/>全文搜索"]
+        TAG["search_tag<br/>标签筛选"]
+        DAILY["get_daily<br/>按日期获取"]
+        SNAP["get_snapshot<br/>快照正文"]
+    end
+
+    subgraph FEAT["  3.0 核心特性"]
+        direction LR
+        IDX["index_map.txt<br/>5-10x 节省"]
+        TRACE["原子溯源<br/>快照链接"]
+        GRAPH["知识图谱<br/>GraphLens"]
+        LAYOUT["排版系统<br/>输出HTML"]
+        INCR["增量感知<br/>~100x"]
+    end
+
+    CMD -->|调用| PROTO
+    PROTO -->|读写| DATA
+    CMD -->|实时查询| MCPBOX
+    MCPBOX -->|数据源| RAW
+    DATA -.->|优势| FEAT
+
+    class SR,RAW,WIKI source;
+    class IDX_NODE highlight;
+    class COMPILER protocol;
+    class INIT,ADD,UPDATE,AUDIT,FIX protocol;
+    class ASK,REPORT,RENDER,GEN,TOPIC command;
+    class SEARCH,TAG,DAILY,SNAP mcp;
+    class IDX,INCR,TRACE,GRAPH,LAYOUT feature;
+    class OUTPUTS output;

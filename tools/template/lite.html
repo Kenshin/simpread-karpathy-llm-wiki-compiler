@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{文档标题}}</title>
+<meta name="description" content="{{摘要}}">
+<meta name="keywords" content="{{关键词}}">
+<meta name="generator" content="简悦 LLM Wiki Knowledge Compiler">
+<meta name="thumbnail" content="https://simpread-1254315611.cos.ap-shanghai.myqcloud.com/static/introduce-2.png"/>
+<meta property="og:image" content="https://simpread-1254315611.cos.ap-shanghai.myqcloud.com/static/introduce-2.png"/>
+<meta property="og:image:type" content="image/png"/>
+<meta property="og:image:width" content="960"/>
+<meta property="og:image:height" content="355"/>
+<link rel="icon" type="image/png" sizes="256x256"  href="https://simpread-1254315611.file.myqcloud.com/favicon/logo@mobile.png">
+<meta name="msapplication-TileColor" content="#2196f3">
+<meta name="theme-color" content="#1976d2">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap">
+</noscript>
+<style>
+/* ── Design Tokens ── */
+:root {
+  --parchment: #FDF8F0;
+  --surface: #FFFFFF;
+  --surface-tint: #FAF6EF;
+  --ink: #1B365D;
+  --ink-light: #2D5A8E;
+  --ink-muted: #6B8EB5;
+  --accent: #C49A6C;
+  --accent-light: #E8D5BC;
+  --text: #2C2C2C;
+  --text-secondary: #5A5A5A;
+  --border: #D6CFC3;
+  --border-light: #EAE4D9;
+  --danger: #B85C5C;
+  --success: #5C8A6B;
+  --serif: "LXGW WenKai", "Source Han Serif SC", "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
+  --heading-serif: "Source Han Serif SC", "Noto Serif SC", "Noto Serif CJK SC", "LXGW WenKai", "Songti SC", Georgia, serif;
+  --mono: "JetBrains Mono", "SF Mono", "Fira Code", Consolas, "LXGW WenKai", monospace;
+}
+
+[data-theme="dark"] {
+  --parchment: #1a1a1a;
+  --surface: #242424;
+  --surface-tint: #1e1e1e;
+  --ink: #6B9FD4;
+  --ink-light: #8BB8E8;
+  --ink-muted: #5a7a9a;
+  --accent: #D4A574;
+  --accent-light: #3a3020;
+  --text: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border: #3a3a3a;
+  --border-light: #2a2a2a;
+  --danger: #e07070;
+  --success: #70b080;
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--parchment);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  font-family: var(--serif);
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 60px 48px 80px;
+  background: var(--surface);
+  box-shadow: 0 1px 20px rgba(27, 54, 93, 0.06);
+  min-height: 100vh;
+  letter-spacing: 0.05em;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4 {
+  font-family: var(--heading-serif);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+  letter-spacing: -0.02em;
+}
+h1 {
+  font-size: 2rem;
+  margin-top: 0;
+  padding-bottom: 0.4em;
+  border-bottom: 2px solid var(--ink);
+  letter-spacing: 0.04em;
+}
+h2 {
+  font-size: 1.4rem;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--border);
+  page-break-after: avoid;
+}
+h3 {
+  font-size: 1.15rem;
+  color: var(--ink-light);
+  margin-top: 1.6em;
+  page-break-after: avoid;
+}
+h4 {
+  font-size: 1rem;
+  color: var(--ink-light);
+  margin-top: 1.2em;
+}
+p { margin-bottom: 0.8em; text-align: justify; }
+strong { font-weight: 600; color: var(--ink); }
+
+a {
+  color: var(--ink-light);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--ink-muted);
+  transition: border-color 0.2s;
+}
+a:hover { border-bottom-color: var(--ink); }
+
+/* ── Header Block ── */
+.doc-header {
+  text-align: center;
+  padding: 48px 0 32px;
+  margin-bottom: 32px;
+  border-bottom: 3px double var(--border);
+}
+.doc-header .brand-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 14px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+.doc-header h1 { border: none; padding: 0; margin: 0; }
+.doc-header .lead {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--text-secondary);
+  margin-top: 1.2em;
+  text-align: justify;
+}
+.doc-header .meta {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-top: 1.2em;
+  letter-spacing: 0.08em;
+}
+
+/* ── TOC ── */
+.toc {
+  margin: 28px 0 36px;
+  padding: 20px 24px;
+  background: var(--surface-tint);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--ink);
+}
+.toc-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.toc ol {
+  list-style: none;
+  counter-reset: toc-counter;
+  padding: 0;
+  margin: 0;
+}
+.toc li {
+  counter-increment: toc-counter;
+  padding: 6px 0;
+  border-bottom: 1px dotted var(--border-light);
+  line-height: 1.6;
+}
+.toc li:last-child { border-bottom: none; }
+.toc li::before {
+  content: counter(toc-counter, decimal-leading-zero);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-right: 10px;
+  letter-spacing: 0.04em;
+}
+.toc a {
+  color: var(--text);
+  border-bottom: none;
+  font-size: 0.95rem;
+}
+.toc a:hover { color: var(--ink); }
+
+/* ── Metric Cards ── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 28px 0 36px;
+}
+.metric-card {
+  background: var(--surface-tint);
+  border: 1px solid var(--border-light);
+  border-top: 3px solid var(--ink);
+  padding: 16px 14px;
+  text-align: center;
+}
+.metric-card .value {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+  line-height: 1.2;
+}
+.metric-card .label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  letter-spacing: 0.04em;
+}
+.metric-card .change {
+  font-size: 0.7rem;
+  margin-top: 4px;
+}
+.metric-card .change.down { color: var(--danger); }
+.metric-card .change.up { color: var(--success); }
+
+/* ── Knowledge Graph ── */
+.kg-container {
+  margin: 32px 0;
+  padding: 28px 24px;
+  background: var(--surface-tint);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--ink);
+  overflow-x: auto;
+}
+.kg-container h3 {
+  margin-top: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+}
+.kg-svg { width: 100%; height: auto; }
+.kg-index { margin-top: 20px; font-size: 0.78rem; }
+.kg-index caption {
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+  padding-bottom: 8px;
+  font-size: 0.8rem;
+}
+
+/* ── Tables ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-size: 0.88rem;
+}
+thead th {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+}
+tbody td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: top;
+}
+tbody tr:nth-child(even) { background: var(--surface-tint); }
+tbody tr:hover { background: var(--accent-light); }
+
+/* ── Lists ── */
+ul, ol { margin: 0.5em 0 1em 1.5em; }
+li { margin-bottom: 0.4em; line-height: 1.75; }
+li::marker { color: var(--accent); }
+
+/* ── Callout / Blockquote ── */
+blockquote {
+  margin: 1.5em 0;
+  padding: 16px 20px;
+  border-left: 4px solid var(--accent);
+  background: var(--surface-tint);
+  font-style: normal;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+}
+blockquote strong { color: var(--ink); }
+
+/* ── Takeaway ── */
+.takeaway {
+  margin: 1.5em 0;
+  padding: 16px 20px;
+  border-left: 4px solid var(--ink);
+  background: var(--surface-tint);
+  border-radius: 0 6px 6px 0;
+}
+.takeaway-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* ── Section Divider ── */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 40px 0 8px;
+}
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.section-divider .eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+/* ── Timeline ── */
+.timeline {
+  position: relative;
+  margin: 24px 0 32px;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--ink), var(--ink-muted), var(--border));
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 18px;
+  padding-left: 18px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 8px;
+  width: 10px;
+  height: 10px;
+  background: var(--ink);
+  border: 2px solid var(--parchment);
+  border-radius: 50%;
+}
+.timeline-item.highlight::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+.timeline-date {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+.timeline-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 2px;
+}
+
+/* ── Sources ── */
+.sources {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 2px solid var(--border);
+}
+.sources h2 { font-size: 1.1rem; }
+.sources table { font-size: 0.8rem; }
+.sources td a { font-size: 0.78rem; }
+
+/* ── Footer ── */
+.doc-footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-light);
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.06em;
+}
+
+/* ── Dark Mode Toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.theme-toggle:hover {
+  border-color: var(--ink);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+/* ── Snapshot links ── */
+a.snapshot { font-size: 0.85em; }
+
+/* ── Responsive ── */
+@media (max-width: 880px) {
+  body { padding: 40px 32px 60px; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  body { padding: 28px 20px 40px; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  h1 { font-size: 1.6rem; }
+  table { font-size: 0.8rem; }
+  .toc { padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ Dark Mode Toggle ════════ -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">🌙</button>
+
+<!-- ════════ HEADER ════════ -->
+<header class="doc-header">
+  <!-- [可选] eyebrow：从文件名推导，无分类前缀则删除此行 -->
+  <div class="brand-tag">{{EYEBROW · 如 "新消费观察 · 黄金专题"}}</div>
+  <h1>{{文档标题}}</h1>
+  <p class="lead">{{Wiki 摘要原文，可精简但必须基于原文}}</p>
+  <p class="meta">SimpRead KB · {{日期}} · 基于简悦稍后读快照编译</p>
+</header>
+
+<!-- ════════ METRIC CARDS ════════ -->
+<!-- [可选] 从 Wiki 核心数据表格提取 4 个关键指标，无数据则删除此区块 -->
+<div class="metrics">
+  <div class="metric-card">
+    <span class="value">{{数值}}</span>
+    <span class="label">{{指标名称}}</span>
+    <span class="change up">{{变化}}</span>
+  </div>
+  <div class="metric-card">
+    <span class="value">{{数值}}</span>
+    <span class="label">{{指标名称}}</span>
+  </div>
+  <div class="metric-card">
+    <span class="value">{{数值}}</span>
+    <span class="label">{{指标名称}}</span>
+  </div>
+  <div class="metric-card">
+    <span class="value">{{数值}}</span>
+    <span class="label">{{指标名称}}</span>
+    <span class="change down">{{变化}}</span>
+  </div>
+</div>
+
+<!-- ════════ TOC ════════ -->
+<nav class="toc">
+  <div class="toc-title">目录</div>
+  <ol>
+    <li><a href="#chapter-1">{{章节标题 1}}</a></li>
+    <li><a href="#chapter-2">{{章节标题 2}}</a></li>
+    <li><a href="#chapter-3">{{章节标题 3}}</a></li>
+  </ol>
+</nav>
+
+<!-- ════════ CHAPTER 1 ════════ -->
+<h1 id="chapter-1">{{章节标题}}</h1>
+
+<p class="lead">{{章节导语}}</p>
+
+<!-- 知识图谱 SVG 容器 -->
+<div class="kg-container">
+  <h3>知识图谱 · Knowledge Graph</h3>
+  <!-- [AI 生成] 内联 SVG 知识图谱，或使用 --mermaid 时替换为 <pre class="mermaid"> -->
+  <svg class="kg-svg" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+    <!-- SVG 内容由 AI 根据 Wiki 正文生成 -->
+  </svg>
+  <!-- 图谱实体快照索引表 -->
+  <table class="kg-index">
+    <caption>图谱实体快照索引</caption>
+    <thead><tr><th>实体</th><th>角色</th><th>关键快照</th></tr></thead>
+    <tbody>
+      <tr><td>{{实体名}}</td><td>{{角色}}</td><td><a href="http://localhost:7026/reading/{{id}}">{{id}}</a></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 正文内容 -->
+<h2>{{子章节标题}}</h2>
+<p>{{正文段落，溯源链接使用 <a class="snapshot" target="_blank" href="http://localhost:7026/reading/{{id}}">{{id}}</a> 格式}}</p>
+
+<!-- 表格示例 -->
+<table>
+  <thead><tr><th>指标</th><th>数据</th></tr></thead>
+  <tbody>
+    <tr><td>{{指标}}</td><td>{{数据}} <a class="snapshot" target="_blank" href="http://localhost:7026/reading/{{id}}">{{id}}</a></td></tr>
+  </tbody>
+</table>
+
+<!-- Callout 示例 -->
+<blockquote>
+  <strong>{{引用标题}}</strong><br>
+  {{引用内容}}
+</blockquote>
+
+<!-- Takeaway 示例 -->
+<div class="takeaway">
+  <div class="takeaway-label">核心结论</div>
+  {{结论内容}}
+</div>
+
+<!-- 列表示例 -->
+<ul>
+  <li><strong>{{要点}}</strong>：{{说明}} <a target="_blank" class="snapshot" href="http://localhost:7026/reading/{{id}}">{{id}}</a></li>
+</ul>
+
+<!-- ════════ CHAPTER 2 ════════ -->
+<!-- [重复上述章节结构，每个章节用 h1 id="chapter-N" 标记] -->
+
+<!-- ════════ SOURCES ════════ -->
+<div class="sources">
+  <h2>Sources（映射表）</h2>
+  <table>
+    <thead><tr><th>编号</th><th>快照数量</th><th>本地快照链接</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>0.md</td>
+        <td>{{数量}}</td>
+        <td><a href="http://localhost:7026/reading/{{id}}">{{id}}</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="doc-footer">
+  {{文档标题}} · 由 SimpRead KB Lite 排版生成
+</footer>
+
+<!-- ════════ Dark Mode Script ════════ -->
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-toggle');
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.removeAttribute('data-theme');
+    btn.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    btn.textContent = '☀️';
+    localStorage.setItem('theme', 'dark');
+  }
+}
+// Auto-detect system preference
+if (localStorage.getItem('theme') === 'dark' ||
+    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.theme-toggle').textContent = '☀️';
+  });
+}
+</script>
+
+</body>
+</html>
