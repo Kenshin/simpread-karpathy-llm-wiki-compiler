@@ -572,7 +572,7 @@ start.bat         # Windows
 
 - **海量吞噬**：针对数千个文件可能带来的上下文溢出问题，内置了**动态行数预检**与**分块流式读取**机制。
 
-- **GraphLens 可视化**：通过同步助手设置完 raw 目录后，可直接在浏览器打开 `http://localhost:7026/rag/wiki/index/` 使用 GraphLens 知识图谱可视化工具，点击节点即可跳转简悦本地快照原文 [详细介绍](#-graphlens让-wiki-知识-活-起来)
+- **GraphLens 可视化**：通过同步助手设置完 raw 目录后，可直接在浏览器打开 `http://localhost:7026/rag/wiki/index/` 使用 GraphLens 知识图谱可视化工具，点击节点即可跳转简悦本地快照原文 [详细介绍](#-高级用法graphlens---让-wiki-知识活起来)
 
 ### 📚 使用前提
 
